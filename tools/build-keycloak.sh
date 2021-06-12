@@ -21,7 +21,7 @@
     # # Clone repository
     # git clone --depth 1 https://github.com/$GIT_REPO.git -b $GIT_BRANCH /opt/jboss/keycloak-source
 
-    # # Build
+    # # # Build
     # cd /opt/jboss/keycloak-source
 
     # MASTER_HEAD=`git log -n1 --format="%H"`
