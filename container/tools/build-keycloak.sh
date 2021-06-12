@@ -5,7 +5,6 @@
 ###########################
 
 #if [ "$GIT_REPO" != "" ]; then
-if false then
     # if [ "$GIT_BRANCH" == "" ]; then
     #     GIT_BRANCH="master"
     # fi
@@ -40,7 +39,8 @@ if false then
     # rm -rf $HOME/.m2/repository
     
     # mv /opt/jboss/keycloak-* /opt/jboss/keycloak
-else
+#else
+if true; then
     #echo "Keycloak from [download]: $KEYCLOAK_DIST"
     microdnf install -y git
     git clone https://github.com/$KEYCLOAK_DIST_REPO.git -b $GIT_BRANCH /opt/jboss/keycloak_dist
