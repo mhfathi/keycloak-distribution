@@ -43,8 +43,13 @@
 if true; then
     #echo "Keycloak from [download]: $KEYCLOAK_DIST"
     microdnf install -y git
+    microdnf install -y git-lfs
+    git lfs install
+    git lfs track "*.tar.gz"
     git clone --depth 1 https://github.com/$KEYCLOAK_DIST_REPO.git -b $GIT_BRANCH /opt/jboss/keycloak_dist
-    mv /opt/jboss/keycloak_dist/keycloak /opt/jboss/keycloak
+    cd /opt/jboss/keycloak_dist/keycloak
+    tar xfz ./keycloak-*.tar.gz
+    mv ./keycloak-* /opt/jboss/keycloak
     rm -rf /opt/jboss/keycloak_dist
 fi
 
