@@ -43,13 +43,17 @@
 if true; then
     #echo "Keycloak from [download]: $KEYCLOAK_DIST"
     microdnf install -y git
-    microdnf install -y git-lfs
-    git lfs install
-    git lfs track "*.tar.gz"
+    # microdnf install -y git-lfs
+    # mkdir /opt/jboss/keycloak_dist
+    # cd /opt/jboss/keycloak_dist
+    # git init
+    # git remote add origin https://github.com/$KEYCLOAK_DIST_REPO.git
+    # git lfs install
+    # git pull origin $GIT_BRANCH
+    # tar xfz ./keycloak/keycloak-*.tar.gz
     git clone --depth 1 https://github.com/$KEYCLOAK_DIST_REPO.git -b $GIT_BRANCH /opt/jboss/keycloak_dist
-    cd /opt/jboss/keycloak_dist/keycloak
-    tar xfz ./keycloak-*.tar.gz
-    mv ./keycloak-* /opt/jboss/keycloak
+    # mkdir /opt/jboss/keycloak
+    mv /opt/jboss/keycloak_dist/keycloak /opt/jboss/keycloak
     rm -rf /opt/jboss/keycloak_dist
 fi
 
@@ -63,6 +67,24 @@ curl -O https://repo1.maven.org/maven2/mysql/mysql-connector-java/$JDBC_MYSQL_VE
 cp /opt/jboss/tools/databases/mysql/module.xml .
 sed "s/JDBC_MYSQL_VERSION/$JDBC_MYSQL_VERSION/" /opt/jboss/tools/databases/mysql/module.xml > module.xml
 
+mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main
+cd /opt/jboss/keycloak/modules/system/layers/base/org/postgresql/jdbc/main
+curl -L https://repo1.maven.org/maven2/org/postgresql/postgresql/$JDBC_POSTGRES_VERSION/postgresql-$JDBC_POSTGRES_VERSION.jar > postgres-jdbc.jar
+cp /opt/jboss/tools/databases/postgres/module.xml .
+
+mkdir -p /opt/jboss/keycloak/modules/system/layers/base/org/mariadb/jdbc/main
+cd /opt/jboss/keycloak/modules/system/layers/base/org/mariadb/jdbc/main
+curl -L https://repo1.maven.org/maven2/org/mariadb/jdbc/mariadb-java-client/$JDBC_MARIADB_VERSION/mariadb-java-client-$JDBC_MARIADB_VERSION.jar > mariadb-jdbc.jar
+cp /opt/jboss/tools/databases/mariadb/module.xml .
+
+mkdir -p /opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main
+cd /opt/jboss/keycloak/modules/system/layers/base/com/oracle/jdbc/main
+cp /opt/jboss/tools/databases/oracle/module.xml .
+
+mkdir -p /opt/jboss/keycloak/modules/system/layers/keycloak/com/microsoft/sqlserver/jdbc/main
+cd /opt/jboss/keycloak/modules/system/layers/keycloak/com/microsoft/sqlserver/jdbc/main
+curl -L https://repo1.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/$JDBC_MSSQL_VERSION/mssql-jdbc-$JDBC_MSSQL_VERSION.jar > mssql-jdbc.jar
+cp /opt/jboss/tools/databases/mssql/module.xml .
 
 ######################
 # Configure Keycloak #
