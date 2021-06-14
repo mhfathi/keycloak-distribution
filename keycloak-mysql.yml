@@ -8,7 +8,7 @@ services:
   mysql:
       image: mysql:latest
       volumes:
-        - mysql_data:/var/lib/mysql
+        - mysql_data:/var/lib/mysql1
       ports:
         - "3306:3306"
       environment:
